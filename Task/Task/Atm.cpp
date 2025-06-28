@@ -20,40 +20,62 @@ void getHelp()
 
 }
 
-class DepositCash
+class Account
+{
+  public:
+  static int totalBalance;
+
+};
+
+class DepositCash : public Account
 {
   public:
   int amount;
   void deposit()
   {
-      cout<<"Deposit cash class called";
       cout<<"Enter Amount you want to deposit: ";
       cin>>amount;
       
+      totalBalance += amount;
+      
+      cout<<"Your bank balance is : "<<totalBalance<<endl;
+      
+      
       
   }
     
 };
 
-class WithdrawCash
+class WithdrawCash : public Account
 {
   public:
-   void withdraw()
+  int amount;
+  void withdraw()
   {
-      cout<<"withdraw cash class called";
+      cout<<"Enter Amount you want to withdraw: ";
+      cin>>amount;
+      
+      if(amount > totalBalance)
+      {
+        cout<<"Insufficient balance available! "<<endl<<endl<<"         Sorry!!"<<endl;
+      }
+      else
+      {
+        totalBalance -= amount;
+      
+        cout<<"Your bank balance is : "<<totalBalance<<endl;     
+      }
+     
   }
     
 };
 
-class BalanceInquiry : public DepositCash
+class BalanceInquiry : public Account
 {
   public:
-  int totalBalance = 40000;
   void showBalance()
   {
-      cout<<"Your available balance is 40000";
-      totalBalance += amount;
-      cout<<"Total balance is "<<totalBalance<<endl;
+      cout<<"Your available balance is "<<Account :: totalBalance<<endl;
   }
     
 };
@@ -86,9 +108,9 @@ class Menu
         bi.showBalance();
         break;
         
-        /*case 0 : 
+        case 0 : 
         exit;
-        break;*/
+        break;
         
     }
     
@@ -112,6 +134,10 @@ class correctPin
             
             Menu m = Menu();
             m.showMenu();
+        }
+        else if(enterpswd != 12345)
+        {
+            cout<<"You had made your attempt which failed!! No more Attempt allowed!!" <<endl<<"    Sorry! "<<endl;
         }
         else
         {
@@ -150,6 +176,7 @@ class AtmPin
 };
 
 
+int Account :: totalBalance = 40000;
 int main()
 {
     welcomeScreen();
