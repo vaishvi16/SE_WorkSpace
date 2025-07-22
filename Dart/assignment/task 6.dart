@@ -2,19 +2,30 @@ import 'dart:io';
 
 void main()
 {
-  int num;
+  int marks;
 
-  print("Enter any number: ");
-  num = int.parse(stdin.readLineSync().toString());
+  print("Enter your marks to see your grade: ");
+  marks = int.parse(stdin.readLineSync().toString());
 
-
-    if(num % 2 == 0 && num % 1 == 0)
-    {
-      print("The given number is prime number");
-    }
+    if(marks >= 90)
+      {
+        print("A Grade");
+      }
+    else if(marks >= 80)
+      {
+        print("B Grade");
+      }
+    else if(marks >= 70)
+      {
+        print("C Grade");
+      }
+    else if(marks >= 60)
+      {
+        print("D Grade");
+      }
     else
       {
-        print("The given number is not a prime ");
+        print("Fail");
       }
 
 

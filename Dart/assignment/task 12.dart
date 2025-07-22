@@ -1,30 +1,43 @@
 
 import 'dart:io';
 
-/*
+
 numAccept()
 {
-   int num,i, max = 0, min = 0;
-   var store;
+  var num, numlist = 0;
+  var largest=0, smallest=0;
 
-   print("Enter how many numbers you want add in a list: ");
-   num = int.parse(stdin.readLineSync().toString());
+  print("Enter numbers you want to add: ");
+  num = int.parse(stdin.readLineSync().toString());
 
-   for(i=1; i<=num; i++)
-     {
-       print("Enter how many number $i: ");
-       store = int.parse(stdin.readLineSync().toString());
+  for(int i= 1; i<=num; i++)
+    {
+      print("Enter number :");
+      numlist = int.parse(stdin.readLineSync().toString());
 
-     }
-
-   for(i=1; i<=num; i++)
-   {
-     print("Number you entered : ${store[i]}");
-   }
+      if(i == 1)
+        {
+          largest = numlist;
+          smallest = numlist;
+        }
+      else
+        {
+          if (numlist < smallest)
+            {
+              smallest = numlist;
+            }
+          if (numlist > largest)
+            {
+              largest = numlist;
+            }
+        }
+    }
+  String result = "Smallest value: $smallest, Largest value: $largest";
+  print(result);
 }
-*/
+
 
 void main()
 {
- // numAccept();
+  numAccept();
 }

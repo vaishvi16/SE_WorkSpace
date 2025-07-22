@@ -16,8 +16,5 @@ void main()
       result = newValue;
       newValue = next;
 
-
-
-
     }
 }
