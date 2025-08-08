@@ -1,8 +1,9 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_projects/second_task/current_mood.dart';
-import 'package:flutter_projects/second_task/details.dart';
-import 'package:flutter_projects/second_task/likes_counter.dart';
+import 'package:flutter_projects/tasks_list/check_mood_task/current_mood.dart';
+import 'package:flutter_projects/tasks_list/check_mood_task/details.dart';
+import 'package:flutter_projects/tasks_list/check_mood_task/likes_counter.dart';
+
 
 class Profile extends StatelessWidget {
   @override
