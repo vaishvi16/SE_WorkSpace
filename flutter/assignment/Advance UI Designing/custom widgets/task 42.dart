@@ -8,8 +8,8 @@ class Task42 extends StatefulWidget {
 }
 
 class _Task42State extends State<Task42> {
-
   TextEditingController percentageController = TextEditingController();
+  double progress = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -19,58 +19,41 @@ class _Task42State extends State<Task42> {
         backgroundColor: Colors.teal,
         centerTitle: true,
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
-              child: TextFormField(
-                onChanged: (value) {
+            TextFormField(
+              controller: percentageController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: "Percentage",
+                hintText: "Enter a value from 0 to 100",
+                border: OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder()
+              ),
+              onChanged: (value) {
+                double? val = double.tryParse(value);
+                if (val != null && val >= 0 && val <= 100) {
                   setState(() {
-                    value = percentageController.text;
+                    progress = val / 100;
                   });
-                },
-                controller: percentageController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 1, color: Colors.black87),
-                  ),
-                  border: OutlineInputBorder(),
-                  labelText: "Percentage",
-                  hintText: "Enter your Percentage",
-                ),
-              ),
+                } else {
+                  setState(() {
+                    progress = 0.0;
+                  });
+                }
+              },
             ),
-      Center(
-        child: Container(
-          clipBehavior: Clip.hardEdge,
-          margin: const EdgeInsets.symmetric(horizontal: 20.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          height: 80.0,
-          width: double.infinity,
-          child: Stack(
-            alignment: Alignment.centerLeft,
-            children: [
-              Positioned.fill(
-                child: LinearProgressIndicator(
-                  value: double.tryParse(percentageController.text.toString()),
-                  color: Colors.teal.withAlpha(100),
-                  backgroundColor: Colors.teal.withAlpha(50),
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.pinkAccent),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.0),
-                child: Text("Progress bar"),
-              )
-            ],
-          ),
-        ),
-      ),
+            SizedBox(height: 30),
+            LinearProgressIndicator(
+              value: progress,
+              backgroundColor: Colors.grey[300],
+              color: Colors.teal,
+              minHeight: 20,
+            ),
+            SizedBox(height: 10),
+            Text("${(progress * 100).toInt()}%", style: TextStyle(fontSize: 16)),
           ],
         ),
       ),
