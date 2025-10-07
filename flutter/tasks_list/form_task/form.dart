@@ -12,7 +12,6 @@ class _FormScreenState extends State<FormScreen> {
   var dropDownValue;
 
   final _formKey = GlobalKey<FormState>();
-
   TextEditingController id = TextEditingController();
   TextEditingController name = TextEditingController();
   TextEditingController surname = TextEditingController();

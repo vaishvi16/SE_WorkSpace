@@ -50,7 +50,7 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.orange,
+        backgroundColor: Colors.teal,
         title: Text(
           "Welcome Admin",
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
