@@ -1,0 +1,35 @@
+
+echo "<h2>Vaishvi API </h2>";
+echo "<ul>";
+
+echo "<li><a href='vaishvi/insert_user.php'>Insert User</a></li>";
+echo "<li><a href='vaishvi/view_user.php'>View User</a></li>";
+echo "<li><a href='vaishvi/login_user.php'>Login User</a></li>";
+
+
+echo "<li><a href='vaishvi/delete_product.php'>Delete Product</a></li>";
+echo "<li><a href='vaishvi/insert_product.php'>Insert Product</a></li>";
+echo "<li><a href='vaishvi/update_product.php'>Update Product</a></li>";
+echo "<li><a href='vaishvi/view_product.php'>View Product</a></li>";
+
+
+echo "<li><a href='vaishvi/insert_category.php'>Insert Category</a></li>";
+echo "<li><a href='vaishvi/view_category.php'>View Category</a></li>";
+echo "<li><a href='vaishvi/update_category.php'>Update Category</a></li>";
+
+
+echo "<li><a href='vaishvi/start_bid.php'>Start Bid</a></li>";
+echo "<li><a href='vaishvi/insert_bid.php'>Insert Bid</a></li>";
+echo "<li><a href='vaishvi/get_current_highest_bid.php'>Get Current Highest Bid</a></li>";
+echo "<li><a href='vaishvi/bid_start_time.php'>Bid start time</a></li>";
+echo "<li><a href='vaishvi/bid_winner.php'>Bid Winner</a></li>";
+
+echo "<li><a href='vaishvi/place_order.php'>Place Order</a></li>";
+echo "<li><a href='vaishvi/get_order.php'>Get Order</a></li>";
+echo "<li><a href='vaishvi/track_order.php'>Track Order</a></li>";
+echo "<li><a href='vaishvi/update_order.php'>Update Order</a></li>";
+echo "<li><a href='vaishvi/cancel_order.php'>Cancel Order</a></li>";
+
+
+echo "</ul>";
+

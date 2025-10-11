@@ -1,0 +1,20 @@
+
+echo "<h2>Vaishvi Assessment Api </h2>";
+echo "<ul>";
+
+echo "<li><a href='vaishvi/insert_item.php'>Insert Item</a></li>";
+echo "<li><a href='vaishvi/view_item.php'>View Item</a></li>";
+
+
+echo "<li><a href='vaishvi/delete_seller.php'>Delete Seller</a></li>";
+echo "<li><a href='vaishvi/insert_seller.php'>Insert Seller</a></li>";
+echo "<li><a href='vaishvi/update_seller.php'>Update Seller</a></li>";
+echo "<li><a href='vaishvi/view_seller.php'>View Seller</a></li>";
+
+
+echo "<li><a href='vaishvi/t_place_order.php'>Tea Place Order</a></li>";
+echo "<li><a href='vaishvi/t_get_order.php'>Tea Get Order</a></li>";
+
+
+echo "</ul>";
+
