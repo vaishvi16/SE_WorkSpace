@@ -2,22 +2,37 @@
 
 include('connect.php');
 
-$seller_id = $_POST['seller_id'];
-$name = $_POST['item_name'];
-$price = $_POST['item_price'];
+$seller_id = isset($_POST['seller_id']) ? $_POST['seller_id'] : null;
+$item_name = $_POST['item_name'];
+$item_price = $_POST['item_price'];
 
-
-// Simple input validation
-if ($seller_id == "" || $name == "" || $price == "" ) {
+if ($item_name == "" || $item_price == "") {
     echo json_encode([
         'status' => 'error',
-        'message' => 'Please fill all the fields.'
+        'message' => 'Item name and price are required.'
     ]);
     exit;
 }
 
-// Insert query
-$query = "INSERT INTO v_items(seller_id, item_name, item_price) VALUES('$seller_id', '$name', '$price')";
-$result = mysqli_query($con, $query);
+// Create query dynamically based on presence of seller_id
+if ($seller_id) {
+    $query = "INSERT INTO v_items (seller_id, item_name, item_price) VALUES ('$seller_id', '$item_name', '$item_price')";
+} else {
+    $query = "INSERT INTO v_items (item_name, item_price) VALUES ('$item_name', '$item_price')";
+}
 
+if (mysqli_query($con, $query)) {
+    echo json_encode([
+        'status' => 'success', 
+        'message' => 'Item inserted successfully.'
+    ]);
+} else {
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Failed to insert item.',
+         'error' => mysqli_error($con)
+    ]);
+}
+
+mysqli_close($con);
 ?>

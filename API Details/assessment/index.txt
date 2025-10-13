@@ -4,6 +4,12 @@ echo "<ul>";
 
 echo "<li><a href='vaishvi/insert_item.php'>Insert Item</a></li>";
 echo "<li><a href='vaishvi/view_item.php'>View Item</a></li>";
+echo "<li><a href='vaishvi/delete_item.php'>Delete Item</a></li>";
+echo "<li><a href='vaishvi/update_item.php'>Update Item</a></li>";
+
+
+echo "<li><a href='vaishvi/insert_item_seller_wise.php'>Insert Item Seller Wise</a></li>";
+echo "<li><a href='vaishvi/view_item_seller_wise.php'>View Item Seller Wise</a></li>";
 
 
 echo "<li><a href='vaishvi/delete_seller.php'>Delete Seller</a></li>";

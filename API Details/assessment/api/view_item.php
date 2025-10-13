@@ -1,13 +1,14 @@
 <?php
-
 include('connect.php');
 
-$sql = "SELECT * FROM v_items";
-$result = $con->query($sql);
-$v_items = [];
+$query = "SELECT * FROM v_items ORDER BY id DESC";
+$result = mysqli_query($con, $query);
 
-while ($row = $result->fetch_assoc()) {
-    $v_items[] = $row;
+$items = [];
+
+while ($row = mysqli_fetch_assoc($result)) {
+    $items[] = $row;
 }
-echo json_encode($v_items);
+
+echo json_encode($items);
 ?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 11, 2025 at 08:10 AM
+-- Generation Time: Oct 13, 2025 at 07:39 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `v_items` (
   `id` int(11) NOT NULL,
-  `seller_id` int(11) NOT NULL,
+  `seller_id` int(11) DEFAULT NULL,
   `item_name` varchar(100) NOT NULL,
   `item_price` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -39,10 +39,13 @@ CREATE TABLE `v_items` (
 --
 
 INSERT INTO `v_items` (`id`, `seller_id`, `item_name`, `item_price`) VALUES
-(1, 2, 'Product Two', 5000.00),
-(2, 2, 'Product Three', 700.00),
 (3, 3, 'New Product', 2000.00),
-(4, 3, 'New Item', 300.00);
+(4, 3, 'New Item', 300.00),
+(12, NULL, 'item 1', 700.00),
+(13, NULL, 'item 2', 250.00),
+(14, NULL, 'item 3', 400.00),
+(15, NULL, 'item 4', 259.00),
+(16, NULL, 'ka', 488.00);
 
 -- --------------------------------------------------------
 
@@ -62,10 +65,8 @@ CREATE TABLE `v_orders` (
 --
 
 INSERT INTO `v_orders` (`id`, `seller_id`, `total_amount`, `order_date`) VALUES
-(1, 2, 50.00, '2025-10-09 11:58:01'),
-(2, 2, 50.00, '2025-10-09 11:58:15'),
-(3, 2, 5.00, '2025-10-09 12:01:07'),
-(4, 3, 2000.00, '2025-10-09 18:24:27');
+(4, 3, 2000.00, '2025-10-09 18:24:27'),
+(5, 3, 2000.00, '2025-10-11 09:52:32');
 
 -- --------------------------------------------------------
 
@@ -80,17 +81,6 @@ CREATE TABLE `v_order_items` (
   `quantity` int(11) NOT NULL,
   `price` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `v_order_items`
---
-
-INSERT INTO `v_order_items` (`id`, `order_id`, `item_id`, `quantity`, `price`) VALUES
-(1, 1, 1, 3, 10.00),
-(3, 2, 1, 3, 10.00),
-(5, 3, 1, 3, 10.00),
-(6, 3, 2, 3, 25.00),
-(7, 4, 1, 2, 1000.00);
 
 -- --------------------------------------------------------
 
@@ -110,8 +100,8 @@ CREATE TABLE `v_sellers` (
 --
 
 INSERT INTO `v_sellers` (`id`, `seller_name`, `contact`, `address`) VALUES
-(2, 'Vaishvi', '1234554321', 'India\r\n'),
-(3, 'Saumya', '9664656109', 'Germany');
+(3, 'Saumya', '9664656109', 'Germany'),
+(13, 'Vaishvi', '9683520494', 'India');
 
 --
 -- Indexes for dumped tables
@@ -153,25 +143,25 @@ ALTER TABLE `v_sellers`
 -- AUTO_INCREMENT for table `v_items`
 --
 ALTER TABLE `v_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `v_orders`
 --
 ALTER TABLE `v_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `v_order_items`
 --
 ALTER TABLE `v_order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `v_sellers`
 --
 ALTER TABLE `v_sellers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
