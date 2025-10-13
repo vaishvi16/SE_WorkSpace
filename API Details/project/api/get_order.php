@@ -12,7 +12,7 @@ if ($user_id == "") {
     exit;
 }
 
-$query = "SELECT * FROM v_orders WHERE user_id = '$user_id'";
+$query = "SELECT * FROM v_miles_orders WHERE user_id = '$user_id'";
 $result = mysqli_query($con, $query);
 
 $data = [];

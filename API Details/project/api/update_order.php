@@ -25,7 +25,7 @@ if (!in_array($new_status, $allowed_statuses)) {
 }
 
 // Update the order status
-$query = "UPDATE v_orders SET order_status = '$new_status' WHERE id = '$order_id'";
+$query = "UPDATE v_miles_orders SET order_status = '$new_status' WHERE id = '$order_id'";
 $result = mysqli_query($con, $query);
 
 if ($result) {

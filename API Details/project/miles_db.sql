@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 11, 2025 at 08:10 AM
+-- Generation Time: Oct 13, 2025 at 09:37 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -63,15 +63,15 @@ CREATE TABLE `v_category` (
 
 INSERT INTO `v_category` (`id`, `name`, `parent_id`, `seller_id`) VALUES
 (1, 'Electronics', NULL, 1),
-(2, 'Fashion', NULL, 1);
+(2, 'Shoes', NULL, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `v_orders`
+-- Table structure for table `v_miles_orders`
 --
 
-CREATE TABLE `v_orders` (
+CREATE TABLE `v_miles_orders` (
   `id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -81,12 +81,13 @@ CREATE TABLE `v_orders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `v_orders`
+-- Dumping data for table `v_miles_orders`
 --
 
-INSERT INTO `v_orders` (`id`, `product_id`, `user_id`, `cat_id`, `order_status`, `order_time`) VALUES
+INSERT INTO `v_miles_orders` (`id`, `product_id`, `user_id`, `cat_id`, `order_status`, `order_time`) VALUES
 (1, 2, 3, 2, 'shipped', '2025-10-11 11:08:23'),
-(2, 3, 3, 2, 'cancelled', '2025-10-11 11:34:44');
+(2, 3, 3, 2, 'cancelled', '2025-10-11 11:34:44'),
+(3, 3, 3, 2, 'pending', '2025-10-13 13:04:53');
 
 -- --------------------------------------------------------
 
@@ -154,9 +155,9 @@ ALTER TABLE `v_category`
   ADD KEY `seller_id` (`seller_id`);
 
 --
--- Indexes for table `v_orders`
+-- Indexes for table `v_miles_orders`
 --
-ALTER TABLE `v_orders`
+ALTER TABLE `v_miles_orders`
   ADD PRIMARY KEY (`id`),
   ADD KEY `product_id` (`product_id`),
   ADD KEY `user_id` (`user_id`),
@@ -194,10 +195,10 @@ ALTER TABLE `v_category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `v_orders`
+-- AUTO_INCREMENT for table `v_miles_orders`
 --
-ALTER TABLE `v_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `v_miles_orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `v_products`
@@ -230,12 +231,12 @@ ALTER TABLE `v_category`
   ADD CONSTRAINT `v_category_ibfk_2` FOREIGN KEY (`seller_id`) REFERENCES `v_users` (`id`);
 
 --
--- Constraints for table `v_orders`
+-- Constraints for table `v_miles_orders`
 --
-ALTER TABLE `v_orders`
-  ADD CONSTRAINT `v_orders_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `v_products` (`id`),
-  ADD CONSTRAINT `v_orders_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `v_users` (`id`),
-  ADD CONSTRAINT `v_orders_ibfk_3` FOREIGN KEY (`cat_id`) REFERENCES `v_category` (`id`);
+ALTER TABLE `v_miles_orders`
+  ADD CONSTRAINT `v_miles_orders_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `v_products` (`id`),
+  ADD CONSTRAINT `v_miles_orders_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `v_users` (`id`),
+  ADD CONSTRAINT `v_miles_orders_ibfk_3` FOREIGN KEY (`cat_id`) REFERENCES `v_category` (`id`);
 
 --
 -- Constraints for table `v_products`

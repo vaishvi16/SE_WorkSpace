@@ -12,7 +12,7 @@ if ($order_id == "") {
     exit;
 }
 
-$query = "SELECT order_status FROM v_orders WHERE id = '$order_id'";
+$query = "SELECT order_status FROM v_miles_orders WHERE id = '$order_id'";
 $result = mysqli_query($con, $query);
 $row = mysqli_fetch_assoc($result);
 

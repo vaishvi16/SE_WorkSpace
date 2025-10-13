@@ -13,7 +13,7 @@ if ($order_id == "" || $user_id == "") {
 }
 
 // Get the order and check ownership + status
-$query = "SELECT * FROM v_orders WHERE id = '$order_id' AND user_id = '$user_id'";
+$query = "SELECT * FROM v_miles_orders WHERE id = '$order_id' AND user_id = '$user_id'";
 $result = mysqli_query($con, $query);
 $order = mysqli_fetch_assoc($result);
 
@@ -35,7 +35,7 @@ if ($order['order_status'] !== 'pending') {
 }
 
 // Cancel the order
-$update = "UPDATE v_orders SET order_status = 'cancelled' WHERE id = '$order_id'";
+$update = "UPDATE v_miles_orders SET order_status = 'cancelled' WHERE id = '$order_id'";
 $updated = mysqli_query($con, $update);
 
 if ($updated) {

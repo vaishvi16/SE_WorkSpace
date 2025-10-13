@@ -27,7 +27,7 @@ if (!$product) {
 
 $cat_id = $product['cat_id'];
 
-$query = "INSERT INTO v_orders(product_id, user_id, cat_id) 
+$query = "INSERT INTO v_miles_orders(product_id, user_id, cat_id) 
           VALUES('$product_id', '$user_id', '$cat_id')";
 $result = mysqli_query($con, $query);
 
