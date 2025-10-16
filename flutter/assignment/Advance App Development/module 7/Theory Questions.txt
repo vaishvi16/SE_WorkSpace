@@ -1,0 +1,40 @@
+			Module-7
+ANS-1:
+What is a RESTful API and its importance in mobile apps?
+
+A RESTful API (Representational State Transfer) is a way for apps to communicate with servers using standard HTTP methods. It sends/receives data (often in JSON format) between a client (like a mobile app) and a backend.
+
+Importance:
+  Enables mobile apps to fetch dynamic content (like user data, weather, products).
+  Ensures real-time updates and cloud integration.
+  Promotes scalability and code separation (frontend/backend).
+
+
+ANS-2:
+How is JSON parsed and used in Flutter?
+
+JSON is a lightweight format for sending structured data.
+Use jsonDecode(response.body) to convert JSON string into a Dart Map or List.
+Create model classes to map and access this data.
+
+Example:
+
+  dart
+  final data = jsonDecode(response.body);
+  String name = data['user']['name'];
+  
+
+
+ANS-3:
+HTTP Methods: Purpose and Usage
+
+ Method    Purpose                         When to Use                          
+ --------  ------------------------------  ------------------------------------ 
+ `GET`     Retrieve data                   Fetching lists, details, status info 
+ `POST`    Send new data to the server     Creating new user/order/message      
+ `PUT`     Update existing data (replace)  Updating full user profile           
+ `DELETE`  Remove data                     Deleting a post or user              
+
+
+
+		

@@ -1,0 +1,32 @@
+	Module-9
+
+ANS-1:
+Implicit vs. Explicit Animations
+
+Implicit: Animations triggered automatically by changes (e.g., color, size) using widgets like Animated Container, Animated Opacity. 
+
+Explicit: Controlled manually using Animation Controller and Tween for custom, fine-tuned animations.                               
+
+
+ANS-2:
+Purpose of AnimationController and its Usage
+
+Animation Controller is used in explicit animations to control:
+Start, stop, reverse, and repeat of an animation.
+
+Requires:
+ A `TickerProvider` (usually via `SingleTickerProviderStateMixin`).
+ Set `duration`, define `Tween`, and call `controller.forward()` or `reverse()`.
+
+_animationController = AnimationController(
+  vsync: this,
+  duration: Duration(seconds: 2),
+);
+
+
+ANS-3:
+What is a Hero Animation in Flutter?
+
+Hero animation creates a smooth transition of a widget (like an image) between two screens.
+Matches Hero tags across screens to animate seamlessly.
+Example: Image on List Page zooms into Detail Page using Hero(tag: 'img1', child: Image(...)).
