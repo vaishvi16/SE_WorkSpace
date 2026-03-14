@@ -1,33 +1,32 @@
 <?php
-
 include('connect.php');
 
-// Optional filter: seller_id
 $seller_id = isset($_GET['seller_id']) ? $_GET['seller_id'] : null;
 
-// Base query
 $query = "SELECT * FROM v_category";
-
-// If seller_id is passed, filter by it
 if ($seller_id !== null) {
     $query .= " WHERE seller_id = '$seller_id'";
 }
 
 $result = mysqli_query($con, $query);
-
 $categories = [];
 
-if ($result && mysqli_num_rows($result) > 0) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $categories[] = $row;
+$base_url = "http://" . $_SERVER['HTTP_HOST'] . "/5_miles/";  // Auto-detects domain
+
+while ($row = mysqli_fetch_assoc($result)) {
+    // fetch images
+    $imgQ = mysqli_query($con, 
+        "SELECT image FROM v_category_images WHERE category_id = '{$row['id']}'"
+    );
+
+    $images = [];
+    while ($img = mysqli_fetch_assoc($imgQ)) {
+        $images[] = $base_url . "uploads/category/" . $img['image'];  // Dynamic URL
     }
 
-    echo json_encode($categories);
-} else {
-    echo json_encode([
-        'status' => 'error',
-        'message' => 'No categories found.'
-    ]);
+    $row['images'] = $images;
+    $categories[] = $row;
 }
 
+echo json_encode($categories);
 ?>

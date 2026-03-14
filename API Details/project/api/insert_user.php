@@ -4,9 +4,10 @@ include('connect.php');
 
 $name = $_POST['name'];
 $mail = $_POST['mail'];
+$password = $_POST['password']; 
 
 // Simple input validation
-if ($name == "" || $mail == "") {
+if ($name == "" || $mail == "" || $password == "") {
     echo json_encode([
         'status' => 'error',
         'message' => 'Please fill all the fields.'
@@ -14,8 +15,11 @@ if ($name == "" || $mail == "") {
     exit;
 }
 
+// Hash the password
+$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
 // Insert query
-$query = "INSERT INTO v_users(name, mail) VALUES('$name', '$mail')";
+$query = "INSERT INTO v_users(name, mail, password) VALUES('$name', '$mail', '$hashedPassword')";
 $result = mysqli_query($con, $query);
 
 // Check for success or failure

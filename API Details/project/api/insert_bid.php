@@ -1,35 +1,59 @@
 <?php
-
 include('connect.php');
 
 $product_id = $_POST['product_id'];
-$user_id = $_POST['user_id'];
+$user_id    = $_POST['user_id'];
 $bid_amount = $_POST['bid_amount'];
 
-if ($product_id == "" || $user_id == "" || $bid_amount == "") {
-    echo "Please provide all fields";
-} else {
-    $res1 = mysqli_query($con, "SELECT MIN(bid_time) AS start_time FROM v_bids WHERE product_id = '$product_id'");
-    $row1 = mysqli_fetch_assoc($res1);
-    $start_time = strtotime($row1['start_time']);
-    $current_time = time();
-
-    if (($current_time - $start_time) > 90) {
-        echo "Bidding time is over";
-        exit;
-    }
-
-    $res2 = mysqli_query($con, "SELECT MAX(bid_amount) AS highest FROM v_bids WHERE product_id = '$product_id'");
-    $row2 = mysqli_fetch_assoc($res2);
-    $highest = $row2['highest'];
-
-    if ($bid_amount <= $highest) {
-        echo "Bid must be higher than current highest bid";
-    } else {
-        $query = "INSERT INTO v_bids(product_id, user_id, bid_amount, bid_time) 
-                  VALUES('$product_id', '$user_id', '$bid_amount', NOW())";
-        mysqli_query($con, $query);
-        echo "Bid placed";
-    }
+if ($product_id=="" || $user_id=="" || $bid_amount=="") {
+    echo "Missing fields";
+    exit;
 }
+
+/* 1️⃣ Get active auction */
+$auction = mysqli_query(
+    $con,
+    "SELECT * FROM v_auctions 
+     WHERE product_id='$product_id' AND status='active'"
+);
+
+if (mysqli_num_rows($auction) == 0) {
+    echo "Auction not active";
+    exit;
+}
+
+$a = mysqli_fetch_assoc($auction);
+$auction_id = $a['id']; // ADDED: auction_id for correct scoping
+
+/* 2️⃣ Check auction time */
+$current = date("Y-m-d H:i:s");
+if ($current > $a['end_time']) {
+    echo "Auction ended";
+    exit;
+}
+
+/* 3️⃣ Get highest bid FOR THIS AUCTION ONLY */
+$res = mysqli_query(
+    $con,
+    "SELECT MAX(bid_amount) AS highest 
+     FROM v_bids 
+     WHERE auction_id='$auction_id'" // CHANGED
+);
+
+$row = mysqli_fetch_assoc($res);
+$highest = $row['highest'] ?? 0;
+
+if ($bid_amount <= $highest) {
+    echo "Bid must be higher than current bid";
+    exit;
+}
+
+/* 4️⃣ Insert bid WITH auction_id */
+mysqli_query(
+    $con,
+    "INSERT INTO v_bids(auction_id, product_id, user_id, bid_amount)
+     VALUES('$auction_id','$product_id','$user_id','$bid_amount')" // CHANGED
+);
+
+echo "Bid placed";
 ?>

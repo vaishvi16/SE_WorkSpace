@@ -1,36 +1,40 @@
 <?php
 include('connect.php');
 
-// Required: category ID to update
 $id = $_POST['id'];
 $name = $_POST['name'];
 $seller_id = $_POST['seller_id'];
-$parent_id = isset($_POST['parent_id']) && $_POST['parent_id'] !== "" ? $_POST['parent_id'] : "NULL";
+$parent_id = ($_POST['parent_id'] != "") ? $_POST['parent_id'] : "NULL";
 
-// Validate required fields
-if ($id == "" || $name == "" || $seller_id == "") {
-    echo json_encode([
-        'status' => 'error',
-        'message' => 'Please provide category ID, name, and seller ID.'
-    ]);
+if ($id == "") {
+    echo json_encode(['status' => 'error', 'message' => 'ID required']);
     exit;
 }
 
-// Update query
-$query = "UPDATE v_category SET name = '$name', parent_id = $parent_id, seller_id = '$seller_id' WHERE id = '$id'";
-$result = mysqli_query($con, $query);
+mysqli_query($con, "
+    UPDATE v_category SET 
+        name = '$name',
+        parent_id = $parent_id,
+        seller_id = '$seller_id'
+    WHERE id = '$id'
+");
 
-// Return response
-if ($result) {
-    echo json_encode([
-        'status' => 'success',
-        'message' => 'Category updated successfully.'
-    ]);
-} else {
-    echo json_encode([
-        'status' => 'error',
-        'message' => 'Failed to update category.',
-        'error' => mysqli_error($con)
-    ]);
+// Upload new images
+if (!empty($_FILES['images']['name'][0])) {
+
+    for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
+
+        $imageName = time() . "_" . $_FILES['images']['name'][$i];
+        $target = "uploads/category/" . $imageName;
+
+        if (move_uploaded_file($_FILES['images']['tmp_name'][$i], $target)) {
+            mysqli_query($con, 
+                "INSERT INTO v_category_images (category_id, image)
+                 VALUES ('$id', '$imageName')"
+            );
+        }
+    }
 }
+
+echo json_encode(['status' => 'success', 'message' => 'Category updated']);
 ?>

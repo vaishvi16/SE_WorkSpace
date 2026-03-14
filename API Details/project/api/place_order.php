@@ -1,46 +1,95 @@
 <?php
 include('connect.php');
 
-$product_id = $_POST['product_id'];
-$user_id = $_POST['user_id'];
+$user_id        = $_POST['user_id'] ?? '';
+$product_ids    = $_POST['product_ids'] ?? '';
+$quantities     = $_POST['quantities'] ?? '';
+$address        = $_POST['address'] ?? '';
+$phone          = $_POST['phone'] ?? '';
+$payment_method = $_POST['payment_method'] ?? '';
+$shipping_type  = $_POST['shipping_type'] ?? 'standard';
 
-if ($product_id == "" || $user_id == "") {
-    echo json_encode([
-        'status' => 'error',
-        'message' => 'Please provide product_id and user_id'
-    ]);
+if (
+    $user_id == "" || 
+    $product_ids == "" || 
+    $quantities == "" ||
+    $address == "" ||
+    $phone == "" ||
+    $payment_method == ""
+) {
+    echo json_encode(['status'=>'error','message'=>'Missing required fields']);
     exit;
 }
 
-// Get category ID from product
-$product_query = "SELECT cat_id FROM v_products WHERE id = '$product_id'";
-$product_result = mysqli_query($con, $product_query);
-$product = mysqli_fetch_assoc($product_result);
-
-if (!$product) {
-    echo json_encode([
-        'status' => 'error',
-        'message' => 'Product not found'
-    ]);
+$allowedShipping = ['standard','express'];
+if (!in_array($shipping_type, $allowedShipping)) {
+    echo json_encode(['status'=>'error','message'=>'Invalid shipping type']);
     exit;
 }
 
-$cat_id = $product['cat_id'];
+$productArray = explode(',', $product_ids);
+$quantityArray = json_decode($quantities, true);
 
-$query = "INSERT INTO v_miles_orders(product_id, user_id, cat_id) 
-          VALUES('$product_id', '$user_id', '$cat_id')";
-$result = mysqli_query($con, $query);
+if ($quantityArray === null) {
+    echo json_encode(['status'=>'error','message'=>'Invalid quantities format']);
+    exit;
+}
 
-if ($result) {
-    echo json_encode([
-        'status' => 'success',
-        'message' => 'Order placed successfully'
-    ]);
+$subtotal = 0;
+
+foreach ($productArray as $pid) {
+
+    $pid = trim($pid);
+
+    $prod_query = "SELECT price FROM v_products WHERE id='$pid'";
+    $prod_result = mysqli_query($con, $prod_query);
+
+    if (mysqli_num_rows($prod_result) == 0) {
+        echo json_encode(['status'=>'error','message'=>"Invalid product ID: $pid"]);
+        exit;
+    }
+
+    $product = mysqli_fetch_assoc($prod_result);
+    $price = $product['price'];
+    $qty = isset($quantityArray[$pid]) ? intval($quantityArray[$pid]) : 1;
+
+    $subtotal += ($price * $qty);
+}
+
+// Add express charge per order
+if ($shipping_type == "express") {
+    $total_amount = $subtotal + 1200;
 } else {
-    echo json_encode([
-        'status' => 'error',
-        'message' => 'Failed to place order',
-        'error' => mysqli_error($con)
-    ]);
+    $total_amount = $subtotal;
 }
+
+// Insert order
+$order_query = "
+INSERT INTO v_miles_orders 
+(user_id, address, phone, payment_method, shipping_type, total_amount)
+VALUES
+('$user_id', '$address', '$phone', '$payment_method', '$shipping_type', '$total_amount')
+";
+
+mysqli_query($con, $order_query);
+$order_id = mysqli_insert_id($con);
+
+// Insert order items
+foreach ($productArray as $pid) {
+    $pid = trim($pid);
+    $qty = isset($quantityArray[$pid]) ? intval($quantityArray[$pid]) : 1;
+
+    mysqli_query($con,"
+    INSERT INTO v_miles_order_items (order_id, product_id, quantity)
+    VALUES ('$order_id','$pid','$qty')
+    ");
+}
+
+echo json_encode([
+    'status'=>'success',
+    'order_id'=>$order_id,
+    'subtotal'=>$subtotal,
+    'shipping_type'=>$shipping_type,
+    'total_amount'=>$total_amount
+]);
 ?>

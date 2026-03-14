@@ -1,48 +1,56 @@
 <?php
 include('connect.php');
 
-// Get the form values
-$u1 = $_POST['user_id'];
-$c1 = $_POST['cat_id'];
-$n1 = $_POST['name'];
-$d1 = $_POST['description'];
-$p1 = $_POST['price'];
-$b1 = $_POST['bid_status'];
+// Get product fields
+$user_id = $_POST['user_id'] ?? '';
+$cat_id = $_POST['cat_id'] ?? '';
+$name = $_POST['name'] ?? '';
+$description = $_POST['description'] ?? '';
+$price = $_POST['price'] ?? '';
+$bid_status = $_POST['bid_status'] ?? 'inactive';
 
-// Image upload (only change made here)
-$i1 = ''; // default
-if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-    $uploadDir = 'uploads/';
-    if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0755, true);
-    }
-
-    $filename = time() . '_' . basename($_FILES['image']['name']);
-    $targetPath = $uploadDir . $filename;
-
-    if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
-        $i1 = $filename; // Save only the filename to the DB
-    } else {
-        echo "Failed to upload image.";
-        exit;
-    }
-} else {
-    echo "Image is required.";
-    exit;
+// Handle image upload
+$image_name = '';
+if(isset($_FILES['image']) && $_FILES['image']['error'] == 0){
+    $image_name = time().'_'.basename($_FILES['image']['name']);
+    move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/product/'.$image_name);
 }
 
-// Validate required fields
-if ($u1 == "" || $c1 == "" || $n1 == "" || $p1 == "" || $b1 == "") {
-    echo "Please Fill All Required Fields";
-} else {
-    $query = "INSERT INTO v_products(user_id, cat_id, name, description, image, price, bid_status) 
-              VALUES('$u1', '$c1', '$n1', '$d1', '$i1', '$p1', '$b1')";
-    
-    if (mysqli_query($con, $query)) {
-        echo "Product Inserted Successfully";
-    } else {
-        echo "Error inserting product: " . mysqli_error($con);
+// Insert product
+$insertProduct = "INSERT INTO v_products (user_id, cat_id, name, description, image, price, bid_status) 
+                  VALUES ('$user_id', '$cat_id', '$name', '$description', '$image_name', '$price', '$bid_status')";
+
+if(mysqli_query($con, $insertProduct)){
+    $product_id = mysqli_insert_id($con);
+
+    // Insert attributes if sent
+    if(isset($_POST['attributes'])){
+        $attributes = stripslashes($_POST['attributes']); // remove extra slashes
+        $attributes = json_decode($attributes, true);
+
+        if(is_array($attributes)){
+            foreach($attributes as $attr_id => $attr_value){
+                $attr_value_safe = mysqli_real_escape_string($con, $attr_value);
+                mysqli_query($con, "INSERT INTO v_product_attributes (product_id, attribute_id, attribute_value) 
+                                    VALUES ('$product_id', '$attr_id', '$attr_value_safe')");
+            }
+        }
     }
+
+    // Prepare JSON response
+    $response = [
+        'status' => 'success',
+        'message' => 'Product Inserted Successfully',
+        'product_id' => $product_id
+    ];
+
+    echo json_encode($response);
+
+} else {
+    echo json_encode([
+        'status' => 'failed',
+        'message' => mysqli_error($con)
+    ]);
 }
 
 mysqli_close($con);
