@@ -1,0 +1,14 @@
+Table names:
+
+v_auctions
+v_auction_results
+v_bids
+v_category
+v_category_attributes
+v_category_images
+v_miles_orders
+v_miles_order_items
+v_products
+v_product_attributes
+v_product_reviews
+v_users
