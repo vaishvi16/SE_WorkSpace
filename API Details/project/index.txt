@@ -15,16 +15,21 @@ echo "<li><a href='vaishvi/delete_product.php'>Delete Product</a></li>";
 echo "<li><a href='vaishvi/insert_product.php'>Insert Product</a></li>";
 echo "<li><a href='vaishvi/update_product.php'>Update Product</a></li>";
 echo "<li><a href='vaishvi/view_product.php'>View Product</a></li>";
+echo "<li><a href='vaishvi/insert_product_attributes.php'>Insert Product Attributes</a></li>";
 echo "<li><a href='vaishvi/get_product_attributes.php'>Get Product Attributes</a></li>";
+echo "<li><a href='vaishvi/delete_product_attributes.php'>Delete Product Attributes</a></li>";
+echo "<li><a href='vaishvi/insert_product_rating.php'>Insert Product Rating</a></li>";
 echo "<li><a href='vaishvi/get_product_rating.php'>Get Product Rating</a></li>";
-
+echo "<li><a href='vaishvi/delete_product_rating.php'>Delete Product Rating</a></li>";
 
 
 echo "<li><a href='vaishvi/insert_category.php'>Insert Category</a></li>";
 echo "<li><a href='vaishvi/view_category.php'>View Category</a></li>";
 echo "<li><a href='vaishvi/update_category.php'>Update Category</a></li>";
 echo "<li><a href='vaishvi/delete_category.php'>Delete Category</a></li>";
+echo "<li><a href='vaishvi/insert_category_attributes.php'>Insert Category Attributes</a></li>";
 echo "<li><a href='vaishvi/get_category_attributes.php'>Get Category Attributes</a></li>";
+echo "<li><a href='vaishvi/delete_category_attributes.php'>Delete Category Attributes</a></li>";
 
 
 
